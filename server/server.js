@@ -6,15 +6,7 @@ if (fs.existsSync('../../yeswescore-api/server/conf.js')) {
   var Conf = require('../../yeswescore-api/server/conf.js');  
   httpProxy.createServer(function (req, res, proxy) {
     
-    var hostname = req.headers.host; 
-    
-    if ( hostname.indexOf("docteur-sav.fr") != -1 ) {    
-      proxy.proxyRequest(req, res, {
-        host: '127.0.0.1',
-        port: '10000'
-      });    
-    }
-    else if (req.url.substr(0, 4) === "/v1/") {
+	if (req.url.substr(0, 4) === "/v1/") {
       console.log('routing ' + req.url + ' to api.v1 (port:' + Conf.get("proxy.http.port.api.v1") + ')');
       // routing /v1/* => to v1 server
       proxy.proxyRequest(req, res, {
